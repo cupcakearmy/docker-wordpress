@@ -1,0 +1,22 @@
+version: "3.7"
+
+x-default: &default
+  restart: unless-stopped
+  env_file: .env
+
+services:
+  home:
+    <<: *default
+    image: cupcakearmy/wordpress
+    ports:
+      - 80:80
+    volumes:
+      - ./data/home:/var/www/html
+    depends_on:
+      - db
+
+  db:
+    <<: *default
+    image: mariadb:10
+    volumes:
+      - ./data/db:/var/lib/mysql
